@@ -1,0 +1,31 @@
+note over selain:
+selain lähettää käyttäjän syötteen palvelimelle
+end note
+
+selain->palvelin: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note
+palvelin->selain: HTTP tilakoodi 302
+
+note over palvelin:
+palvelin pyytää selaimelta uuden HTTP GET -pyynnön
+response headerissä määriteltyyn osoitteeseen /exampleapp/notes
+end note
+
+selain->palvelin: HTTP GET https://studies.cs.helsinki.fi/exampleapp/notes
+palvelin->selain: HTML-koodi
+selain->palvelin: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
+palvelin->selain: main.css
+selain->palvelin: https://studies.cs.helsinki.fi/exampleapp/main.js
+palvelin->selain: main.js
+
+note over selain:
+selain alkaa suorittaa js-koodia
+joka pyytää JSON-datan palvelimelta
+end note
+
+selain->palvelin: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+palvelin->selain: [{ content: "xD", date: "2022-07-21T12:37:08.925Z" }]
+
+note over selain:
+selain suorittaa tapahtumankäsittelijän
+joka renderöi muistiinpanot näytölle
+end note

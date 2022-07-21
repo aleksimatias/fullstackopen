@@ -1,0 +1,18 @@
+note over selain:
+käyttäjän painaessa 'save', selain suorittaa tapahtumankäsittelijän
+ja uusi muistiinpano lisätään muistiinpanojen listaan
+ja uusi lista renderöidään näytölle
+end note
+
+selain->palvelin: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+
+note over selain:
+request payload: { "content": "test", "date": "2022-07-21T13:07:44.981Z" }
+end note
+
+palvelin->selain: HTTP tilakoodi 201
+
+note over selain:
+selain ei uudelleenohjaa käyttäjää tai päivitä sivua
+kun uusi sisältö renderöidään
+end note
