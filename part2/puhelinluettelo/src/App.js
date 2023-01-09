@@ -8,11 +8,21 @@ const App = () => {
   // Prevent form default
   const addNewName = (e) => {
     e.preventDefault();
-    const nameItem = {
-      name: newName,
-    };
-    // Return new array with new name(s), clear name field on submit
-    setPersons(persons.concat(nameItem));
+
+    // Use filter to check if name is already in Phonebook
+    const checkName = persons.filter((person) => person.name === newName);
+
+    if (checkName.length === 0) {
+      const nameItem = {
+        name: newName,
+      };
+      // Return new array with new name(s)
+      setPersons(persons.concat(nameItem));
+    } else {
+      // Alert user that name is already in Phonebook
+      alert(`${newName} is already added to phonebook`);
+      // Clear name field on submit
+    }
     setNewName("");
   };
 
