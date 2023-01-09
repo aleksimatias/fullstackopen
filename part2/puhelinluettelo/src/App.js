@@ -27,9 +27,13 @@ const App = () => {
     );
 
     if (checkName.length === 0) {
-      // Return new array with new name(s)
-      setPersons(persons.concat(newPerson));
-      setVisiblePersons(visiblePersons.concat(newPerson));
+      // Add new persons to database
+      axios
+        .post("http://localhost:3001/persons", newPerson)
+        .then((response) => {
+          setPersons(persons.concat(newPerson));
+          setVisiblePersons(visiblePersons.concat(newPerson));
+        });
     } else {
       // Alert user that name is already in Phonebook
       alert(`${newPerson.name} is already added to phonebook`);
