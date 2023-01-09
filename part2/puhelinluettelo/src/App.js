@@ -40,6 +40,17 @@ const App = () => {
     setNewPerson({ name: "", number: "" });
   };
 
+  // Delete person from database
+  const deletePerson = (id, name) => {
+    if (window.confirm(`Delete ${name}?`)) {
+      personService.remove(id).then((response) => {
+        const updatedPersons = persons.filter((person) => person.id !== id);
+        setPersons(updatedPersons);
+        setVisiblePersons(updatedPersons);
+      });
+    }
+  };
+
   // Update new name and number based on value of name field
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -65,7 +76,7 @@ const App = () => {
         handleChange={handleChange}
       />
       <h2>Numbers</h2>
-      <Persons visiblePersons={visiblePersons} />
+      <Persons visiblePersons={visiblePersons} deletePerson={deletePerson} />
     </div>
   );
 };
