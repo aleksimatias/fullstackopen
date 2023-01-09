@@ -25,6 +25,18 @@ const Course = ({ course }) => {
     <div>
       <Header name={course.name} />
       <Content parts={course.parts} />
+      <Total parts={course.parts} />
+    </div>
+  );
+};
+
+const Total = ({ parts }) => {
+  return (
+    <div>
+      <p>
+        Number of exercises{" "}
+        {parts[0]["exercises"] + parts[1]["exercises"] + parts[2]["exercises"]}
+      </p>
     </div>
   );
 };
