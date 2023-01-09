@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import Filter from "./components/Filter";
 import Form from "./components/Form";
 import Persons from "./components/Persons";
+import personService from "./services/persons";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -11,9 +11,9 @@ const App = () => {
   const [visiblePersons, setVisiblePersons] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:3001/persons").then((response) => {
-      setPersons(response.data);
-      setVisiblePersons(response.data);
+    personService.getAll().then((initialPersons) => {
+      setPersons(initialPersons);
+      setVisiblePersons(initialPersons);
     });
   }, []);
 
@@ -28,12 +28,10 @@ const App = () => {
 
     if (checkName.length === 0) {
       // Add new persons to database
-      axios
-        .post("http://localhost:3001/persons", newPerson)
-        .then((response) => {
-          setPersons(persons.concat(newPerson));
-          setVisiblePersons(visiblePersons.concat(newPerson));
-        });
+      personService.create(newPerson).then((returnedPerson) => {
+        setPersons(persons.concat(returnedPerson));
+        setVisiblePersons(persons.concat(returnedPerson));
+      });
     } else {
       // Alert user that name is already in Phonebook
       alert(`${newPerson.name} is already added to phonebook`);
