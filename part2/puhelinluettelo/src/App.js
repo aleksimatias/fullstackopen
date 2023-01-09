@@ -1,5 +1,7 @@
 import { useState } from "react";
-import Person from "./components/Person";
+import Filter from "./components/Filter";
+import Form from "./components/Form";
+import Persons from "./components/Persons";
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -8,8 +10,7 @@ const App = () => {
     { name: "Dan Abramov", number: "12-43-234345" },
     { name: "Mary Poppendieck", number: "39-23-6423122" },
   ]);
-  const [newName, setNewName] = useState("");
-  const [newNumber, setNewNumber] = useState("");
+  const [newPerson, setNewPerson] = useState({ name: "", number: "" });
   const [filter, setFilter] = useState("");
   const [visiblePersons, setVisiblePersons] = useState(persons);
 
@@ -18,32 +19,26 @@ const App = () => {
     e.preventDefault();
 
     // Use filter to check if name is already in Phonebook
-    const checkName = persons.filter((person) => person.name === newName);
+    const checkName = persons.filter(
+      (person) => person.name === newPerson.name
+    );
 
     if (checkName.length === 0) {
-      const personItem = {
-        name: newName,
-        number: newNumber,
-      };
       // Return new array with new name(s)
-      setPersons(persons.concat(personItem));
-      setVisiblePersons(persons.concat(personItem));
+      setPersons(persons.concat(newPerson));
+      setVisiblePersons(visiblePersons.concat(newPerson));
     } else {
       // Alert user that name is already in Phonebook
-      alert(`${newName} is already added to phonebook`);
+      alert(`${newPerson.name} is already added to phonebook`);
     }
     // Clear name and number field on submit
-    setNewName("");
-    setNewNumber("");
+    setNewPerson({ name: "", number: "" });
   };
 
   // Update new name and number based on value of name field
-  const handleNameChange = (e) => {
-    setNewName(e.target.value);
-  };
-
-  const handleNumberChange = (e) => {
-    setNewNumber(e.target.value);
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setNewPerson({ ...newPerson, [name]: value });
   };
 
   // Use case-insensitive filtering for names of people
@@ -58,27 +53,14 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <p>
-        filter shown with <input value={filter} onChange={nameFilter} />
-      </p>
-      <form onSubmit={addNewPerson}>
-        <h2>add a new</h2>
-        <div>
-          name: <input value={newName} onChange={handleNameChange} />
-        </div>
-        <div>
-          number: <input value={newNumber} onChange={handleNumberChange} />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <Filter filter={filter} nameFilter={nameFilter} />
+      <Form
+        addPerson={addNewPerson}
+        newPerson={newPerson}
+        handleChange={handleChange}
+      />
       <h2>Numbers</h2>
-      <div>
-        {visiblePersons.map((person) => (
-          <Person key={person.name} person={person} />
-        ))}
-      </div>
+      <Persons visiblePersons={visiblePersons} />
     </div>
   );
 };
