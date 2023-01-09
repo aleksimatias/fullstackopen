@@ -56,6 +56,11 @@ const App = () => {
             setPersons(updatedPersons);
             setVisiblePersons(updatedPersons);
             setMessage(`Updated ${newPerson.name}`);
+          })
+          .catch((error) => {
+            setMessage(
+              `Information of ${newPerson.name} has already been removed from the server`
+            );
           });
       }
     }

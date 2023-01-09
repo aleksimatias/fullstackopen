@@ -1,12 +1,21 @@
-.msg_success {
+.msg_success,
+.msg_error {
   font-family: Arial, Helvetica, sans-serif;
-  color: green;
   text-align: center;
   font-weight: bold;
-  background: rgba(50, 50, 50, 0.25);
   font-size: 22px;
   padding: 1em;
   margin-bottom: 1em;
   border-radius: 0.5em;
   border-style: solid;
+}
+
+.msg_success {
+  color: green;
+  background: rgba(50, 50, 50, 0.25);
+}
+
+.msg_error {
+  color: red;
+  background: rgba(150, 50, 50, 0.33);
 }
