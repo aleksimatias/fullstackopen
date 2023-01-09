@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Filter from "./components/Filter";
 import Form from "./components/Form";
 import Persons from "./components/Persons";
+import Notification from "./components/Notification";
 import personService from "./services/persons";
 
 const App = () => {
@@ -9,6 +10,7 @@ const App = () => {
   const [newPerson, setNewPerson] = useState({ name: "", number: "" });
   const [filter, setFilter] = useState("");
   const [visiblePersons, setVisiblePersons] = useState([]);
+  const [message, setMessage] = useState(null);
 
   useEffect(() => {
     personService.getAll().then((initialPersons) => {
@@ -16,6 +18,12 @@ const App = () => {
       setVisiblePersons(initialPersons);
     });
   }, []);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setMessage(null);
+    }, 7500);
+  }, [message]);
 
   // Prevent form default
   const addNewPerson = (e) => {
@@ -31,6 +39,7 @@ const App = () => {
       personService.create(newPerson).then((returnedPerson) => {
         setPersons(persons.concat(returnedPerson));
         setVisiblePersons(persons.concat(returnedPerson));
+        setMessage(`Added ${newPerson.name}`);
       });
     } else {
       if (
@@ -46,6 +55,7 @@ const App = () => {
             );
             setPersons(updatedPersons);
             setVisiblePersons(updatedPersons);
+            setMessage(`Updated ${newPerson.name}`);
           });
       }
     }
@@ -82,6 +92,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={message} />
       <Filter filter={filter} nameFilter={nameFilter} />
       <Form
         addPerson={addNewPerson}
