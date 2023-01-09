@@ -33,8 +33,21 @@ const App = () => {
         setVisiblePersons(persons.concat(returnedPerson));
       });
     } else {
-      // Alert user that name is already in Phonebook
-      alert(`${newPerson.name} is already added to phonebook`);
+      if (
+        window.confirm(
+          `${newPerson.name} is already added to phonebook, replace the old number with a new one?`
+        )
+      ) {
+        personService
+          .update(checkName[0].id, newPerson)
+          .then((returnedPerson) => {
+            const updatedPersons = persons.map((person) =>
+              person.id !== returnedPerson.id ? person : returnedPerson
+            );
+            setPersons(updatedPersons);
+            setVisiblePersons(updatedPersons);
+          });
+      }
     }
     // Clear name and number field on submit
     setNewPerson({ name: "", number: "" });
