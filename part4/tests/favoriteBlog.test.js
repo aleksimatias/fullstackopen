@@ -1,6 +1,6 @@
 const listHelper = require("../utils/list_helper");
 
-describe("total likes", () => {
+describe("favorite blog", () => {
   const listWithNoBlogs = [];
 
   const listWithOneBlog = [
@@ -66,17 +66,25 @@ describe("total likes", () => {
   ];
 
   test("when list has no blogs equals 0", () => {
-    const result = listHelper.totalLikes(listWithNoBlogs);
+    const result = listHelper.favoriteBlog(listWithNoBlogs);
     expect(result).toBe(0);
   });
 
   test("when list has one blog equals the likes of that blog", () => {
-    const result = listHelper.totalLikes(listWithOneBlog);
-    expect(result).toBe(5);
+    const result = listHelper.favoriteBlog(listWithOneBlog);
+    expect(result).toEqual({
+      title: "Go To Statement Considered Harmful",
+      author: "Edsger W. Dijkstra",
+      likes: 5,
+    });
   });
 
   test("when list has many blogs equals the sum of them all", () => {
-    const result = listHelper.totalLikes(blogs);
-    expect(result).toBe(36);
+    const result = listHelper.favoriteBlog(blogs);
+    expect(result).toEqual({
+      title: "Canonical string reduction",
+      author: "Edsger W. Dijkstra",
+      likes: 12,
+    });
   });
 });
