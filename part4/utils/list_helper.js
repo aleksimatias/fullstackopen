@@ -34,4 +34,18 @@ const mostBlogs = (blogs) => {
   };
 };
 
-module.exports = { dummy, totalLikes, favoriteBlog, mostBlogs };
+const mostLikes = (blogs) => {
+  const numOfLikes = lodash(blogs)
+    .groupBy("author")
+    .map((likes, author) => ({
+      author: author,
+      likes: lodash.sumBy(likes, "likes"),
+    }))
+    .value();
+
+  return numOfLikes.reduce((a, b) => {
+    return a.likes > b.likes ? a : b;
+  });
+};
+
+module.exports = { dummy, totalLikes, favoriteBlog, mostBlogs, mostLikes };
