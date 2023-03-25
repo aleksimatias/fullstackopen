@@ -1,3 +1,5 @@
+const lodash = require("lodash");
+
 const dummy = (blogs) => {
   return 1;
 };
@@ -20,4 +22,16 @@ const favoriteBlog = (blogs) => {
   };
 };
 
-module.exports = { dummy, totalLikes, favoriteBlog };
+const mostBlogs = (blogs) => {
+  const blogsByAuthors = lodash.countBy(blogs, "author");
+  const commonAuthor = Object.keys(blogsByAuthors).reduce((a, b) => {
+    return blogsByAuthors[a] > blogsByAuthors[b] ? a : b;
+  });
+
+  return {
+    author: commonAuthor,
+    blogs: blogsByAuthors[commonAuthor],
+  };
+};
+
+module.exports = { dummy, totalLikes, favoriteBlog, mostBlogs };
